@@ -7,6 +7,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "google/protobuf": "^5.35",
+        "grpc/grpc": "^1.82",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
         "spiral/roadrunner": "^2025.1"
