@@ -9,6 +9,10 @@ use Auth\LogoutRequest;
 use Auth\LogoutResponse;
 use Auth\RefreshRequest;
 use Auth\RegisterRequest;
+use Auth\RegisterResponse;
+use Auth\ResendVerificationRequest;
+use Auth\ResendVerificationResponse;
+use Auth\VerifyEmailRequest;
 use Grpc\ChannelCredentials;
 use RuntimeException;
 
@@ -30,7 +34,7 @@ class AuthGrpcClient
         string $email,
         string $password,
         string $name
-    ): AuthResponse {
+    ): RegisterResponse {
         $request = new RegisterRequest();
 
         $request->setEmail($email);
@@ -39,6 +43,40 @@ class AuthGrpcClient
 
         [$response, $status] = $this->client
             ->Register($request)
+            ->wait();
+
+        $this->checkStatus($status);
+
+        return $response;
+    }
+
+    public function verifyEmail(
+        string $email,
+        string $code
+    ): AuthResponse {
+        $request = new VerifyEmailRequest();
+
+        $request->setEmail($email);
+        $request->setCode($code);
+
+        [$response, $status] = $this->client
+            ->VerifyEmail($request)
+            ->wait();
+
+        $this->checkStatus($status);
+
+        return $response;
+    }
+
+    public function resendVerification(
+        string $email
+    ): ResendVerificationResponse {
+        $request = new ResendVerificationRequest();
+
+        $request->setEmail($email);
+
+        [$response, $status] = $this->client
+            ->ResendVerification($request)
             ->wait();
 
         $this->checkStatus($status);
@@ -81,11 +119,11 @@ class AuthGrpcClient
     }
 
     public function logout(
-        string $accessToken
+        string $refreshToken
     ): LogoutResponse {
         $request = new LogoutRequest();
 
-        $request->setAccessToken($accessToken);
+        $request->setRefreshToken($refreshToken);
 
         [$response, $status] = $this->client
             ->Logout($request)

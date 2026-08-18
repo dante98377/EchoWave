@@ -10,14 +10,14 @@ use Google\Protobuf\Internal\GPBUtil;
 use Google\Protobuf\RepeatedField;
 
 /**
- * Generated from protobuf message <code>auth.LogoutRequest</code>
+ * Generated from protobuf message <code>auth.ResendVerificationRequest</code>
  */
-class LogoutRequest extends \Google\Protobuf\Internal\Message
+class ResendVerificationRequest extends \Google\Protobuf\Internal\Message
 {
     /**
-     * Generated from protobuf field <code>string refresh_token = 1;</code>
+     * Generated from protobuf field <code>string email = 1;</code>
      */
-    protected $refresh_token = '';
+    protected $email = '';
 
     /**
      * Constructor.
@@ -25,7 +25,7 @@ class LogoutRequest extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type string $refresh_token
+     *     @type string $email
      * }
      */
     public function __construct($data = NULL) {
@@ -34,23 +34,23 @@ class LogoutRequest extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string refresh_token = 1;</code>
+     * Generated from protobuf field <code>string email = 1;</code>
      * @return string
      */
-    public function getRefreshToken()
+    public function getEmail()
     {
-        return $this->refresh_token;
+        return $this->email;
     }
 
     /**
-     * Generated from protobuf field <code>string refresh_token = 1;</code>
+     * Generated from protobuf field <code>string email = 1;</code>
      * @param string $var
      * @return $this
      */
-    public function setRefreshToken(string $var)
+    public function setEmail(string $var)
     {
         GPBUtil::checkString($var, true);
-        $this->refresh_token = $var;
+        $this->email = $var;
 
         return $this;
     }
