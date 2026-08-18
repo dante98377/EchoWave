@@ -20,13 +20,41 @@ class AuthServiceClient extends \Grpc\BaseStub {
      * @param \Auth\RegisterRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Auth\AuthResponse>
+     * @return \Grpc\UnaryCall<\Auth\RegisterResponse>
      */
     public function Register(\Auth\RegisterRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/auth.AuthService/Register',
         $argument,
+        ['\Auth\RegisterResponse', 'decode'],
+        $metadata, $options);
+    }
+
+    /**
+     * @param \Auth\VerifyEmailRequest $argument input argument
+     * @param array $metadata metadata
+     * @param array $options call options
+     * @return \Grpc\UnaryCall<\Auth\AuthResponse>
+     */
+    public function VerifyEmail(\Auth\VerifyEmailRequest $argument,
+      $metadata = [], $options = []) {
+        return $this->_simpleRequest('/auth.AuthService/VerifyEmail',
+        $argument,
         ['\Auth\AuthResponse', 'decode'],
+        $metadata, $options);
+    }
+
+    /**
+     * @param \Auth\ResendVerificationRequest $argument input argument
+     * @param array $metadata metadata
+     * @param array $options call options
+     * @return \Grpc\UnaryCall<\Auth\ResendVerificationResponse>
+     */
+    public function ResendVerification(\Auth\ResendVerificationRequest $argument,
+      $metadata = [], $options = []) {
+        return $this->_simpleRequest('/auth.AuthService/ResendVerification',
+        $argument,
+        ['\Auth\ResendVerificationResponse', 'decode'],
         $metadata, $options);
     }
 

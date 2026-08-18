@@ -10,4 +10,6 @@ Route::prefix('auth')
         Route::post('login', 'login');
         Route::post('refresh', 'refresh');
         Route::post('logout', 'logout');
+        Route::post('verify-email', 'verifyEmail');
+        Route::post('resend-verification', 'resendVerification');
     });

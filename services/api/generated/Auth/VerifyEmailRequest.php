@@ -10,18 +10,18 @@ use Google\Protobuf\Internal\GPBUtil;
 use Google\Protobuf\RepeatedField;
 
 /**
- * Generated from protobuf message <code>auth.LoginRequest</code>
+ * Generated from protobuf message <code>auth.VerifyEmailRequest</code>
  */
-class LoginRequest extends \Google\Protobuf\Internal\Message
+class VerifyEmailRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Generated from protobuf field <code>string email = 1;</code>
      */
     protected $email = '';
     /**
-     * Generated from protobuf field <code>string password = 2;</code>
+     * Generated from protobuf field <code>string code = 2;</code>
      */
-    protected $password = '';
+    protected $code = '';
 
     /**
      * Constructor.
@@ -30,7 +30,7 @@ class LoginRequest extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type string $email
-     *     @type string $password
+     *     @type string $code
      * }
      */
     public function __construct($data = NULL) {
@@ -61,23 +61,23 @@ class LoginRequest extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string password = 2;</code>
+     * Generated from protobuf field <code>string code = 2;</code>
      * @return string
      */
-    public function getPassword()
+    public function getCode()
     {
-        return $this->password;
+        return $this->code;
     }
 
     /**
-     * Generated from protobuf field <code>string password = 2;</code>
+     * Generated from protobuf field <code>string code = 2;</code>
      * @param string $var
      * @return $this
      */
-    public function setPassword(string $var)
+    public function setCode(string $var)
     {
         GPBUtil::checkString($var, true);
-        $this->password = $var;
+        $this->code = $var;
 
         return $this;
     }
