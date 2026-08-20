@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\Services;
 
 use App\Domain\ServiceInstance\ServiceInstance;
+use App\Domain\ServiceInstance\ServiceInstanceRepository;
 
 class RegisterService
 {
-    public function execute(RegisterServiceCommand $command)
-    {
-        // orchestration
+    public function __construct(
+        private ServiceInstanceRepository $repository
+    ) {}
 
-        $instance = ServiceInstance::create(
-            service_name: $command->serviceName,
-            host: $command->host,
-            port: $command->port,
-            protocol: $commanf->protocol,
+    public function execute(array $data): ServiceInstance
+    {
+        $instance = new ServiceInstance(
+            serviceName: $data['service_name'],
+            host: $data['host'],
+            port: $data['port'],
+            protocol: $data['protocol'],
         );
 
-        $this->repository->save($instance);
-
-        return $instance;
+        return $this->repository->save($instance);
     }
 }
