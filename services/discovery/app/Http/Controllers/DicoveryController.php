@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application\Services\HeartbeatService;
 use App\Application\Services\RegisterService;
+use App\Application\Services\DeregisterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class DicoveryController
     public function __construct(
         private RegisterService $registerService,
         private HeartbeatService $heartbeatService,
+        private DeregisterService $deregisterService,
     ) {}
 
     public function register(Request $request): JsonResponse
@@ -37,7 +39,9 @@ class DicoveryController
 
     public function deregister(Request $request, string $id)
     {
-        // $id — ID конкретного instance
+        return response()->json(
+            $this->deregisterService->execute($id)
+        );
     }
 
     public function find(string $name)
