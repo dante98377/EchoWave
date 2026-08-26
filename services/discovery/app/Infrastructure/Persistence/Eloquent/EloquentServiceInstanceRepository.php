@@ -9,8 +9,6 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
 {
     public function save(ServiceInstance $instance): ServiceInstance
     {
-        // Domain Entity → Eloquent Model
-
         EloquentServiceInstance::updateOrCreate(
             ['id' => $instance->id],
             [
@@ -34,15 +32,60 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
             return null;
         }
 
-        // Eloquent Model → Domain Entity
+        return $this->toDomain($model);
+    }
 
-        $instance = new ServiceInstance(
+    public function findByServiceName(
+        string $serviceName
+    ): ?ServiceInstance {
+        $model = EloquentServiceInstance::query()
+            ->where('service_name', $serviceName)
+            ->where('status', 'healthy')
+            ->first();
+
+        if ($model === null) {
+            return null;
+        }
+
+        return $this->toDomain($model);
+    }
+
+    public function findInstancesByServiceName(
+        string $serviceName
+    ): array {
+        return EloquentServiceInstance::query()
+            ->where('service_name', $serviceName)
+            ->where('status', 'healthy')
+            ->get()
+            ->map(
+                fn (EloquentServiceInstance $model) =>
+                    $this->toDomain($model)
+            )
+            ->all();
+    }
+
+    public function findAll(): array
+    {
+        return EloquentServiceInstance::query()
+            ->get()
+            ->map(
+                fn (EloquentServiceInstance $model) =>
+                    $this->toDomain($model)
+            )
+            ->all();
+    }
+
+    private function toDomain(
+        EloquentServiceInstance $model
+    ): ServiceInstance {
+        return ServiceInstance::reconstitute(
+            id: $model->id,
             serviceName: $model->service_name,
             host: $model->host,
             port: $model->port,
             protocol: $model->protocol,
+            status: $model->status,
+            lastHeartbeatAt: $model->last_heartbeat_at?->toDateTimeImmutable(),
         );
-
-        return $instance;
     }
 }
