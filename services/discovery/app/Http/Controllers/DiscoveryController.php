@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Application\Services\HeartbeatService;
-use App\Application\Services\RegisterService;
-use App\Application\Services\DeregisterService;
+use App\Application\HeartbeatService;
+use App\Application\RegisterService;
+use App\Application\DeregisterService;
+use App\Application\GetNameService;
+use App\Application\GetListService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DicoveryController
+class DiscoveryController
 {
     public function __construct(
         private RegisterService $registerService,
         private HeartbeatService $heartbeatService,
         private DeregisterService $deregisterService,
+        private GetNameService $getNameService,
+        private GetListService $getListService,
     ) {}
 
     public function register(Request $request): JsonResponse
@@ -44,19 +48,24 @@ class DicoveryController
         );
     }
 
-    public function find(string $name)
+    public function find(string $serviceName)
     {
-        // $name — имя сервиса
+        return response()->json(
+            $this->getNameService->execute($serviceName)
+        );
     }
 
     public function list()
     {
-        // вернуть список зарегистрированных сервисов
+        return response()->json(
+            $this->getListService->execute()
+        );
     }
 
     public function instances(string $name)
     {
-        // $name — имя сервиса
-        // вернуть все его instances
+        return response()->json(
+            $this->getInstancesService->execute($name)
+        );  
     }
 }
