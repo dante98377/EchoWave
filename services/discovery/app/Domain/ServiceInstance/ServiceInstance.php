@@ -9,7 +9,7 @@ class ServiceInstance
 {
     public string $id;
 
-    public string $status;
+    public ServiceInstanceStatus $status;
 
     public ?DateTimeImmutable $lastHeartbeatAt;
 
@@ -20,7 +20,9 @@ class ServiceInstance
         public readonly string $protocol,
     ) {
         $this->id = Uuid::uuid4()->toString();
-        $this->status = ServiceInstanceStatus::HEALTHY->value;
+
+        $this->status = ServiceInstanceStatus::HEALTHY;
+
         $this->lastHeartbeatAt = new DateTimeImmutable();
     }
 
@@ -30,7 +32,7 @@ class ServiceInstance
         string $host,
         int $port,
         string $protocol,
-        string $status,
+        ServiceInstanceStatus $status,
         ?DateTimeImmutable $lastHeartbeatAt,
     ): self {
         $instance = new self(
@@ -49,32 +51,32 @@ class ServiceInstance
 
     public function heartbeat(): void
     {
-        $this->status = ServiceInstanceStatus::HEALTHY->value;
+        $this->status = ServiceInstanceStatus::HEALTHY;
         $this->lastHeartbeatAt = new DateTimeImmutable();
     }
 
     public function deregister(): void
     {
-        $this->status = ServiceInstanceStatus::OFFLINE->value;
+        $this->status = ServiceInstanceStatus::OFFLINE;
     }
 
     public function markUnhealthy(): void
     {
-        $this->status = ServiceInstanceStatus::UNHEALTHY->value;
+        $this->status = ServiceInstanceStatus::UNHEALTHY;
     }
 
     public function isHealthy(): bool
     {
-        return $this->status === ServiceInstanceStatus::HEALTHY->value;
+        return $this->status === ServiceInstanceStatus::HEALTHY;
     }
 
     public function isUnhealthy(): bool
     {
-        return $this->status === ServiceInstanceStatus::UNHEALTHY->value;
+        return $this->status === ServiceInstanceStatus::UNHEALTHY;
     }
 
     public function isOffline(): bool
     {
-        return $this->status === ServiceInstanceStatus::OFFLINE->value;
+        return $this->status === ServiceInstanceStatus::OFFLINE;
     }
 }

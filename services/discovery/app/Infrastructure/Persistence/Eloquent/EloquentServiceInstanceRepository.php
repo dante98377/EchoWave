@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Eloquent;
 
 use App\Domain\ServiceInstance\ServiceInstance;
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
+use App\Domain\ServiceInstance\ServiceInstanceStatus;
 
 class EloquentServiceInstanceRepository implements ServiceInstanceRepository
 {
@@ -16,7 +17,7 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
                 'host' => $instance->host,
                 'port' => $instance->port,
                 'protocol' => $instance->protocol,
-                'status' => $instance->status,
+                'status' => $instance->status->value,
                 'last_heartbeat_at' => $instance->lastHeartbeatAt,
             ]
         );
@@ -40,7 +41,7 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
     ): ?ServiceInstance {
         $model = EloquentServiceInstance::query()
             ->where('service_name', $serviceName)
-            ->where('status', 'healthy')
+            ->where('status', ServiceInstanceStatus::HEALTHY->value)
             ->first();
 
         if ($model === null) {
@@ -55,7 +56,7 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
     ): array {
         return EloquentServiceInstance::query()
             ->where('service_name', $serviceName)
-            ->where('status', 'healthy')
+            ->where('status', ServiceInstanceStatus::HEALTHY->value)
             ->get()
             ->map(
                 fn (EloquentServiceInstance $model) =>
@@ -84,7 +85,7 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
             host: $model->host,
             port: $model->port,
             protocol: $model->protocol,
-            status: $model->status,
+            status: ServiceInstanceStatus::from($model->status),
             lastHeartbeatAt: $model->last_heartbeat_at?->toDateTimeImmutable(),
         );
     }
