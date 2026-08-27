@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Services;
+namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstance;
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
