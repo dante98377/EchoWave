@@ -4,6 +4,7 @@ namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstance;
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
+use Illuminate\Support\Facades\Log;
 
 class RegisterService
 {
@@ -20,6 +21,16 @@ class RegisterService
             protocol: $data['protocol'],
         );
 
-        return $this->repository->save($instance);
+        $instance = $this->repository->save($instance);
+
+        Log::info('Service instance registered', [
+            'instance_id' => $instance->id,
+            'service_name' => $instance->serviceName,
+            'host' => $instance->host,
+            'port' => $instance->port,
+            'protocol' => $instance->protocol,
+        ]);
+
+        return $instance;
     }
 }

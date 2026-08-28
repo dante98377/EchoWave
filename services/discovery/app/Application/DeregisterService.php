@@ -4,7 +4,8 @@ namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstance;
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
-use RuntimeException;
+use App\Domain\ServiceInstance\Exceptions\ServiceInstanceNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class DeregisterService
 {
@@ -17,13 +18,24 @@ class DeregisterService
         $instance = $this->repository->findById($id);
 
         if ($instance === null) {
-            throw new RuntimeException(
-                "Service instance [$id] not found."
-            );
+            Log::warning('Deregister requested for unknown instance', [
+                'instance_id' => $id,
+            ]);
+
+            throw new ServiceInstanceNotFoundException($id);
         }
 
         $instance->deregister();
 
-        return $this->repository->save($instance);
+        $instance = $this->repository->save($instance);
+
+        Log::info('Service instance deregistered', [
+            'instance_id' => $instance->id,
+            'service_name' => $instance->serviceName,
+            'host' => $instance->host,
+            'port' => $instance->port,
+        ]);
+
+        return $instance;
     }
 }

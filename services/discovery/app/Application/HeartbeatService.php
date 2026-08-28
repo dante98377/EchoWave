@@ -4,7 +4,8 @@ namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstance;
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
-use RuntimeException;
+use App\Domain\ServiceInstance\Exceptions\ServiceInstanceNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class HeartbeatService
 {
@@ -17,13 +18,28 @@ class HeartbeatService
         $instance = $this->repository->findById($id);
 
         if ($instance === null) {
-            throw new RuntimeException(
-                "Service instance [$id] not found."
-            );
+            Log::warning('Heartbeat received for unknown instance', [
+                'instance_id' => $id,
+            ]);
+
+            throw new ServiceInstanceNotFoundException($id);
         }
+
+        $wasUnhealthy = $instance->isUnhealthy();
 
         $instance->heartbeat();
 
-        return $this->repository->save($instance);
+        $instance = $this->repository->save($instance);
+
+        if ($wasUnhealthy) {
+            Log::info('Service instance recovered', [
+                'instance_id' => $instance->id,
+                'service_name' => $instance->serviceName,
+                'host' => $instance->host,
+                'port' => $instance->port,
+            ]);
+        }
+
+        return $instance;
     }
 }
