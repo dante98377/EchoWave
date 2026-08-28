@@ -3,7 +3,7 @@
 namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
-use RuntimeException;
+use App\Domain\ServiceInstance\Exceptions\ServiceNotFoundException;
 
 class GetNameService
 {
@@ -17,9 +17,7 @@ class GetNameService
             ->findByServiceName($serviceName);
 
         if ($instance === null) {
-            throw new RuntimeException(
-                "Service [$serviceName] not found."
-            );
+            throw new ServiceNotFoundException($serviceName);
         }
 
         return [
