@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package discovery;
+
+
+service DiscoveryService {
+
+    rpc Register(
+        RegisterRequest
+    ) returns (
+        RegisterResponse
+    );
+
+    rpc Heartbeat(
+        HeartbeatRequest
+    ) returns (
+        HeartbeatResponse
+    );
+
+    rpc Deregister(
+        DeregisterRequest
+    ) returns (
+        DeregisterResponse
+    );
+
+    rpc Find(
+        FindRequest
+    ) returns (
+        FindResponse
+    );
+
+    rpc List(
+        ListRequest
+    ) returns (
+        ListResponse
+    );
+
+    rpc GetInstances(
+        GetInstancesRequest
+    ) returns (
+        GetInstancesResponse
+    );
+}
+
+
+// ============================================================
+// Service Instance
+// ============================================================
+
+message ServiceInstance {
+    string id = 1;
+    string service_name = 2;
+    string host = 3;
+    int32 port = 4;
+    string protocol = 5;
+    string status = 6;
+    string last_heartbeat_at = 7;
+}
+
+
+message RegisterRequest {
+    string service_name = 1;
+    string host = 2;
+    int32 port = 3;
+    string protocol = 4;
+}
+
+message RegisterResponse {
+    ServiceInstance instance = 1;
+}
+
+
+message HeartbeatRequest {
+    string id = 1;
+}
+
+message HeartbeatResponse {
+    ServiceInstance instance = 1;
+}
+
+
+message DeregisterRequest {
+    string id = 1;
+}
+
+message DeregisterResponse {
+    ServiceInstance instance = 1;
+}
+
+
+message FindRequest {
+    string service_name = 1;
+}
+
+message FindResponse {
+    ServiceInstance instance = 1;
+}
+
+
+message ListRequest {
+}
+
+message ListResponse {
+    repeated ServiceInstance instances = 1;
+}
+
+
+message GetInstancesRequest {
+    string service_name = 1;
+}
+
+message GetInstancesResponse {
+    repeated ServiceInstance instances = 1;
+}
