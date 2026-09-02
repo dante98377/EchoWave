@@ -10,7 +10,7 @@ Route::prefix('discovery')
         Route::post('services/{id}/heartbeat', 'heartbeat');
         Route::post('services/{id}/deregister', 'deregister');
 
+        Route::get('services/{serviceName}', 'find');
         Route::get('services', 'list');
         Route::get('services/{name}/instances', 'instances');
-        Route::get('services/{serviceName}', 'find');
     });
