@@ -4,6 +4,8 @@ EchoWave is a distributed music platform inspired by services such as **Bandcamp
 
 The project focuses primarily on **backend development, microservice architecture, distributed systems, and DevOps**, while keeping the frontend at a moderate level of complexity.
 
+Link to [excalidraw](https://excalidraw.com/#json=BbePQhk1qycMi-SFxsvIm,P87OSKAf9F-YgkK-KurAhg)
+
 ## Project Overview
 
 EchoWave allows users to:
