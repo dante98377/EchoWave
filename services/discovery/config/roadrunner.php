@@ -16,7 +16,7 @@ return [
 
     'grpc' => [
         'services' => [
-            // GreeterInterface::class => new Greeter::class,
+            \Discovery\DiscoveryServiceInterface::class => \App\Grpc\DiscoveryGrpcService::class,
         ],
     ],
 
