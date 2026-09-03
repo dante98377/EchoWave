@@ -17,7 +17,7 @@ class EloquentServiceInstanceRepository implements ServiceInstanceRepository
                 'host' => $instance->host,
                 'port' => $instance->port,
                 'protocol' => $instance->protocol,
-                'status' => $instance->status->value,
+                'status' => $instance->status,
                 'last_heartbeat_at' => $instance->lastHeartbeatAt,
             ]
         );
