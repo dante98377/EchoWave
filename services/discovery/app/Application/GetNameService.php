@@ -4,6 +4,7 @@ namespace App\Application;
 
 use App\Domain\ServiceInstance\ServiceInstanceRepository;
 use App\Domain\ServiceInstance\Exceptions\ServiceNotFoundException;
+use App\Domain\ServiceInstance\ServiceInstance;
 
 class GetNameService
 {
@@ -11,7 +12,7 @@ class GetNameService
         private ServiceInstanceRepository $repository
     ) {}
 
-    public function execute(string $serviceName): array
+   public function execute(string $serviceName): ServiceInstance
     {
         $instance = $this->repository
             ->findByServiceName($serviceName);
@@ -20,9 +21,6 @@ class GetNameService
             throw new ServiceNotFoundException($serviceName);
         }
 
-        return [
-            'service_name' => $instance->serviceName,
-            'protocol' => $instance->protocol,
-        ];
+        return $instance;
     }
 }
