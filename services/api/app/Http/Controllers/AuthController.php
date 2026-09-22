@@ -98,4 +98,14 @@ class AuthController extends Controller
 
         return response()->noContent();
     }
+
+    public function verifyEmail(Request $request)
+    {
+
+    }
+
+    public function resendVerification(Request $request)
+    {
+        
+    }
 }
