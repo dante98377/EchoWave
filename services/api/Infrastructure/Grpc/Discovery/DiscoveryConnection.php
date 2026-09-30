@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Grpc\Discovery;
 
 use Grpc\Channel;
+use Dotenv\Dotenv;
 
 class DiscoveryConnection
 {
@@ -10,8 +11,8 @@ class DiscoveryConnection
 
     public function __construct()
     {
-        $host = config('grpc.discovery.host', '127.0.0.1');
-        $port = config('grpc.discovery.port', 50051);
+        $host = config('grpc.discovery.host', $_ENV['DISCOVERY_GRPC_PORT']);
+        $port = config('grpc.discovery.port', $_ENV['DISCOVERY_GRPC_PORT']);
 
         $this->channel = new Channel(
             $host . ':' . $port,
